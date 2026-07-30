@@ -1,0 +1,10 @@
+[
+  { "id": 1,  "name": "HTML",         "level": 95, "category": "Languages" },
+  { "id": 2,  "name": "CSS",          "level": 95, "category": "Languages" },
+  { "id": 3,  "name": "JavaScript",   "level": 85, "category": "Languages" },
+  { "id": 4,  "name": "React JS",     "level": 90, "category": "Technologies" },
+  { "id": 5,  "name": "Next JS",      "level": 75, "category": "Technologies" },
+  { "id": 6,  "name": "Tailwind CSS", "level": 90, "category": "Tools" },
+  { "id": 7,  "name": "Bootstrap",    "level": 85, "category": "Tools" },
+  { "id": 8,  "name": "Git & GitHub", "level": 80, "category": "Tools" }
+]

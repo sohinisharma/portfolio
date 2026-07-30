@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "company": "Globolosys Fashion Pvt. Ltd.",
+    "role": "Frontend Developer",
+    "duration": "Nov 2024 – Present",
+    "type": "Full-time",
+    "points": [
+      "Designed, developed, debugged, and modified frontend code for web applications.",
+      "Built responsive and user-friendly UI components using HTML, CSS, JavaScript, React JS, Bootstrap, and Tailwind CSS.",
+      "Contributed to UI design and coding for e-commerce platforms and business websites.",
+      "Worked with Git and GitHub for version control and collaboration.",
+      "Performed API testing using Postman to validate integration workflows."
+    ]
+  }
+]

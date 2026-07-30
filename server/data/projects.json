@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "title": "Sotbella E-Commerce Stores",
+    "description": "React-based e-commerce applications for sotbella.com, sotbella.ae, sotbella.us & sotbella.uk. Built scalable B2C platforms with complex authentication systems, shopping cart management, and Salesforce Commerce Cloud integration with token-based auth and real-time cart functionality.",
+    "tags": ["React JS", "Salesforce CC", "JavaScript", "REST API", "Chakra UI"],
+    "github": "#",
+    "live": "https://sotbella.com",
+    "icon": "🛍️"
+  },
+  {
+    "id": 2,
+    "title": "Sotbella Wallet",
+    "description": "React-based digital wallet application featuring secure authentication, wallet management, transaction history, payment workflows, account management, reusable UI components, REST API integration, and role-based access control.",
+    "tags": ["React JS", "REST API", "JavaScript", "Tailwind CSS"],
+    "github": "#",
+    "live": "https://wallet-live.sotbella360.com/",
+    "icon": "💳"
+  },
+  {
+    "id": 3,
+    "title": "Sotbella B2B Portal",
+    "description": "React-based B2B wholesale website enabling business partners to browse products, place bulk orders, manage accounts, and access partner-specific features through a secure and responsive web experience with REST API integration.",
+    "tags": ["React JS", "REST API", "JavaScript", "Chakra UI"],
+    "github": "#",
+    "live": "https://partner.sotbella.com",
+    "icon": "🤝"
+  },
+  {
+    "id": 4,
+    "title": "Make Your Label",
+    "description": "Enterprise-level React B2B e-commerce platform with 331+ components, multi-currency payment integration, token-based auth, real-time currency conversion, comprehensive dashboard analytics, and Vite-optimized performance.",
+    "tags": ["React JS", "Next JS", "Tailwind CSS", "Vite", "REST API"],
+    "github": "#",
+    "live": "https://makeyourlabel.com",
+    "icon": "🏷️"
+  },
+  {
+    "id": 5,
+    "title": "Excitpay",
+    "description": "Designed modern, visually appealing UI layouts for the Excitpay fintech platform. Created responsive user interface designs focusing on usability, accessibility, and smooth user experience, collaborating with developers to translate designs into functional interfaces.",
+    "tags": ["UI Design", "HTML", "CSS", "Tailwind CSS"],
+    "github": "#",
+    "live": "https://excitpay.com",
+    "icon": "💰"
+  }
+]
