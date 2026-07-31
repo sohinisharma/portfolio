@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react';
-import { Box, Flex, HStack, Text, Button } from '@chakra-ui/react';
+import { Box, Flex, HStack, Text, Button, Image } from '@chakra-ui/react';
 import { Link } from 'react-scroll';
 import { FiMenu, FiX, FiDownload } from 'react-icons/fi';
+import logo from '../assets/logo.svg';
 
 const NAV_LINKS = [
-  { label: 'Home',       to: 'hero' },
-  { label: 'About',      to: 'about' },
-  { label: 'Skills',     to: 'skills' },
+  { label: 'Home', to: 'hero' },
+  { label: 'About', to: 'about' },
+  { label: 'Skills', to: 'skills' },
   { label: 'Experience', to: 'experience' },
-  { label: 'Projects',   to: 'projects' },
-  { label: 'Contact',    to: 'contact' },
+  { label: 'Projects', to: 'projects' },
+  { label: 'Contact', to: 'contact' },
 ];
 
 // Reusable glassmorphic nav link
@@ -88,30 +89,18 @@ export default function Navbar({ profile }) {
         justify="space-between"
       >
         {/* Logo */}
-        <Link to="hero" smooth duration={500} style={{ cursor: 'pointer' }}>
-          <Text
-            fontFamily="'Outfit', sans-serif"
-            fontWeight="800"
-            fontSize="2xl"
-            letterSpacing="tight"
-            display="flex"
-            alignItems="center"
-            gap="1px"
-          >
-            <Text as="span" color="#6c63ff">&lt;</Text>
-            <Text
-              as="span"
-              style={{
-                background: 'linear-gradient(135deg,#6c63ff,#00d4ff)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
-              {firstName}
-            </Text>
-            <Text as="span" color="#6c63ff">/&gt;</Text>
-          </Text>
+        <Link to="hero" smooth duration={500} style={{ cursor: "pointer" }}>
+          <Image
+            src={logo}
+            alt="Sohini Sharma Logo"
+            h={{ base: "60px", md: "90px", lg: "110px" }}
+            w="auto"
+            objectFit="contain"
+            transition="transform .3s ease"
+            _hover={{
+              transform: "scale(1.05)",
+            }}
+          />
         </Link>
 
         {/* Desktop Nav */}

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Box, Flex, VStack, HStack, Text } from '@chakra-ui/react';
+import { Box, Flex, VStack, HStack, Text, Image } from '@chakra-ui/react';
 import { Link } from 'react-scroll';
 import { FiGithub, FiLinkedin, FiHeart, FiArrowUp } from 'react-icons/fi';
+import logo from '../assets/logo.svg';
 
 const NAV_LINKS = [
   { label: 'Home', to: 'hero' },
@@ -53,27 +54,18 @@ export default function Footer({ profile }) {
         >
           {/* Brand */}
           <VStack align="start" spacing={3} maxW="300px">
-            <Link to="hero" smooth duration={500}>
-              <Text
-                fontSize="2xl"
-                fontWeight="800"
-                cursor="pointer"
-                display="flex"
-              >
-                <Text as="span" color="#6c63ff">&lt;</Text>
-                <Text
-                  as="span"
-                  style={{
-                    background: 'linear-gradient(135deg,#6c63ff,#00d4ff)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
-                  {firstName}
-                </Text>
-                <Text as="span" color="#6c63ff">/&gt;</Text>
-              </Text>
+            <Link to="hero" smooth duration={500} style={{ cursor: "pointer" }}>
+              <Image
+                src={logo}
+                alt="Sohini Sharma Logo"
+                h={{ base: "60px", md: "90px", lg: "110px" }}
+                w="auto"
+                objectFit="contain"
+                transition="transform .3s ease"
+                _hover={{
+                  transform: "scale(1.05)",
+                }}
+              />
             </Link>
 
             <Text color="#94a3b8" fontSize="sm">
@@ -174,7 +166,19 @@ export default function Footer({ profile }) {
           gap={4}
         >
           <Text color="#94a3b8" fontSize="sm">
-            © {new Date().getFullYear()} {firstName}. All rights reserved.
+            © {new Date().getFullYear()} Developed by{" "}
+            <Text
+              as="span"
+              color="#6c63ff"
+              fontWeight="600"
+              cursor="pointer"
+              _hover={{
+                color: "#00d4ff",
+              }}
+            >
+              Sohini Sharma
+            </Text>
+            . All rights reserved.
           </Text>
 
           <HStack spacing={1}>

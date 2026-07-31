@@ -1,5 +1,7 @@
-import { Box, Flex, Grid, GridItem, Text, VStack, HStack } from '@chakra-ui/react';
+import { Box, Flex, Grid, GridItem, Text, VStack, HStack, Image } from '@chakra-ui/react';
 import { FiMapPin, FiMail, FiCode, FiBook, FiAward, FiPhone } from 'react-icons/fi';
+import profileImage from "../assets/profile.jpeg";
+
 
 const gradientText = {
   background: 'linear-gradient(135deg,#ffffff 20%,#00d4ff 100%)',
@@ -21,9 +23,9 @@ export default function About({ profile, education }) {
   const initials = profile?.name?.split(' ').map((n) => n[0]).join('') || 'SS';
 
   const stats = [
-    { icon: <FiCode size={18} />,  label: 'Experience',   value: '1.6+yrs', color: '#6c63ff' },
-    { icon: <FiBook size={18} />,  label: 'Projects',     value: '5+',      color: '#00d4ff' },
-    { icon: <FiAward size={18} />, label: 'Technologies', value: '8+',      color: '#ff6b9d' },
+    { icon: <FiCode size={18} />, label: 'Experience', value: '1.6+yrs', color: '#6c63ff' },
+    { icon: <FiBook size={18} />, label: 'Projects', value: '5+', color: '#00d4ff' },
+    { icon: <FiAward size={18} />, label: 'Technologies', value: '8+', color: '#ff6b9d' },
   ];
 
   return (
@@ -98,14 +100,13 @@ export default function About({ profile, education }) {
                     align="center"
                     justify="center"
                   >
-                    <Text
-                      fontFamily="'Outfit', sans-serif"
-                      fontWeight="900"
-                      fontSize="5xl"
-                      style={{ background: 'linear-gradient(135deg,#6c63ff,#00d4ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}
-                    >
-                      {initials}
-                    </Text>
+                    <Image
+                      src={profileImage}
+                      alt="Profile"
+                      boxSize="150px"
+                      borderRadius="full"
+                      objectFit="cover"
+                    />
                   </Flex>
                 </Box>
                 {/* Badge */}
@@ -155,9 +156,9 @@ export default function About({ profile, education }) {
               {/* Contact Info */}
               <VStack align="start" gap={3} w="100%">
                 {[
-                  { icon: <FiMail size={15} />,  text: profile?.email    || 'sharmasohini80@gmail.com', color: '#6c63ff' },
-                  { icon: <FiPhone size={15} />, text: profile?.phone    || '+91-7550466420',           color: '#00d4ff' },
-                  { icon: <FiMapPin size={15} />,text: profile?.location || 'India',                    color: '#ff6b9d' },
+                  { icon: <FiMail size={15} />, text: profile?.email || 'sharmasohini80@gmail.com', color: '#6c63ff' },
+                  { icon: <FiPhone size={15} />, text: profile?.phone || '+91-7550466420', color: '#00d4ff' },
+                  { icon: <FiMapPin size={15} />, text: profile?.location || 'India', color: '#ff6b9d' },
                 ].map(({ icon, text, color }, i) => (
                   <HStack key={i} gap={3} fontSize="sm" color="#a0aec0">
                     <Flex
