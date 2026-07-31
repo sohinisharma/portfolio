@@ -50,39 +50,46 @@ app.get('/api/education',  (req, res) => res.json({ success: true, data: educati
 app.get('/api/experience', (req, res) => res.json({ success: true, data: experience }));
 
 // ── Contact Form ──────────────────────────────────────────────
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 app.post('/api/contact', async (req, res) => {
   const { name, email, message } = req.body;
 
-  // Validate
-  if (!name?.trim() || !email?.trim() || !message?.trim()) {
-    return res.status(400).json({ success: false, error: 'All fields are required.' });
-  }
+  // ── Server-side validation (mirrors frontend rules) ──────────
+  const n = name?.trim();
+  const e = email?.trim().toLowerCase();
+  const m = message?.trim();
+
+  if (!n || n.length < 2)
+    return res.status(400).json({ success: false, error: 'Name must be at least 2 characters.' });
+  if (!e || !EMAIL_REGEX.test(e))
+    return res.status(400).json({ success: false, error: 'Please enter a valid email address.' });
+  if (!m || m.length < 10)
+    return res.status(400).json({ success: false, error: 'Message must be at least 10 characters.' });
+  if (m.length > 2000)
+    return res.status(400).json({ success: false, error: 'Message must be under 2000 characters.' });
 
   try {
-    // 1️⃣  Save to MongoDB (only if connected — non-blocking if not)
+    // 1️⃣  Save to MongoDB
     if (dbConnected) {
       try {
-        const contact = await Contact.create({ name, email, message });
+        const contact = await Contact.create({ name: n, email: e, message: m });
         console.log('💾 Saved to MongoDB:', contact._id);
       } catch (dbErr) {
         console.error('⚠️  DB save failed (non-fatal):', dbErr.message);
       }
     } else {
-      console.log('⚠️  DB not connected — skipping save. Message from:', email);
+      console.log('⚠️  DB not connected — skipping save. Message from:', e);
     }
 
-    // 2️⃣  Send emails (notification + auto-reply)
-    try {
-      await sendContactEmail({ name, email, message });
-      console.log(`📧 Emails sent → ${process.env.CONTACT_RECEIVER} & auto-reply → ${email}`);
-    } catch (mailErr) {
-      console.error('⚠️  Email failed (non-fatal):', mailErr.message);
-    }
+    // 2️⃣  Send both emails independently
+    const emailResult = await sendContactEmail({ name: n, email: e, message: m });
+    console.log('📧 Email results:', emailResult);
 
-    // 3️⃣  Always respond with success
+    // 3️⃣  Always respond success
     return res.status(201).json({
       success: true,
-      message: "Message received! I'll get back to you soon. 🚀",
+      message: "Message received! You'll get a confirmation email shortly. 🚀",
     });
 
   } catch (err) {
