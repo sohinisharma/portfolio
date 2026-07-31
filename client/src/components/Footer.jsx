@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Box, Flex, VStack, HStack, Text, Image } from '@chakra-ui/react';
+import { Box, Flex, VStack, HStack, Text } from '@chakra-ui/react';
 import { Link } from 'react-scroll';
 import { FiGithub, FiLinkedin, FiHeart, FiArrowUp } from 'react-icons/fi';
-import logo from '../assets/logo.svg';
 
 const NAV_LINKS = [
-  { label: 'Home', to: 'hero' },
-  { label: 'About', to: 'about' },
-  { label: 'Skills', to: 'skills' },
+  { label: 'Home',       to: 'hero' },
+  { label: 'About',      to: 'about' },
+  { label: 'Skills',     to: 'skills' },
   { label: 'Experience', to: 'experience' },
-  { label: 'Projects', to: 'projects' },
-  { label: 'Contact', to: 'contact' },
+  { label: 'Projects',   to: 'projects' },
+  { label: 'Contact',    to: 'contact' },
 ];
 
 export default function Footer({ profile }) {
@@ -45,112 +44,84 @@ export default function Footer({ profile }) {
       />
 
       <Box position="relative" maxW="1200px" mx="auto" px={6} py="56px">
-        {/* Content */}
+        {/* Top row */}
         <Flex
-          direction={{ base: "column", lg: "row" }}
+          direction={{ base: 'column', sm: 'row' }}
+          align={{ base: 'start', sm: 'center' }}
           justify="space-between"
-          gap={10}
+          gap={8}
           mb={10}
         >
-          {/* Brand */}
-          <VStack align="start" spacing={3} maxW="300px">
-            <Link to="hero" smooth duration={500} style={{ cursor: "pointer" }}>
-              <Image
-                src={logo}
-                alt="Sohini Sharma Logo"
-                h={{ base: "60px", md: "90px", lg: "110px" }}
-                w="auto"
-                objectFit="contain"
-                transition="transform .3s ease"
-                _hover={{
-                  transform: "scale(1.05)",
-                }}
-              />
+          {/* Logo + tagline */}
+          <VStack align="start" gap={2}>
+            <Link to="hero" smooth duration={500} style={{ cursor: 'pointer' }}>
+              <Text
+                fontFamily="'Outfit', sans-serif"
+                fontWeight="800"
+                fontSize="2xl"
+                display="flex"
+                alignItems="center"
+                gap="1px"
+              >
+                <Text as="span" color="#6c63ff">&lt;</Text>
+                <Text
+                  as="span"
+                  style={{
+                    background: 'linear-gradient(135deg,#6c63ff,#00d4ff)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}
+                >
+                  {firstName}
+                </Text>
+                <Text as="span" color="#6c63ff">/&gt;</Text>
+              </Text>
             </Link>
-
-            <Text color="#94a3b8" fontSize="sm">
-              Frontend Developer passionate about building scalable,
-              responsive, and high-performance web applications using
-              modern technologies.
+            <Text color="#718096" fontSize="sm" maxW="280px">
+              Frontend Developer passionate about building scalable, responsive, and high-performance web applications.
             </Text>
           </VStack>
 
-          {/* Quick Links */}
-          <VStack align="start" spacing={3}>
-            <Text color="white" fontWeight="600">
-              Quick Links
-            </Text>
-
-            {NAV_LINKS.map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                smooth
-                duration={500}
-                offset={-70}
-              >
+          {/* Quick nav links */}
+          <Flex wrap="wrap" gap={{ base: 4, md: 6 }}>
+            {NAV_LINKS.map((link) => (
+              <Link key={link.to} to={link.to} smooth duration={500} offset={-70} style={{ cursor: 'pointer' }}>
                 <Text
-                  cursor="pointer"
-                  color="#94a3b8"
-                  _hover={{ color: "#6c63ff" }}
+                  fontSize="sm"
+                  color="#718096"
+                  transition="color 0.2s"
+                  _hover={{ color: '#6c63ff' }}
                 >
-                  {item.label}
+                  {link.label}
                 </Text>
               </Link>
             ))}
-          </VStack>
+          </Flex>
+        </Flex>
 
-          {/* Technologies */}
-          <VStack align="start" spacing={3}>
-            <Text color="white" fontWeight="600">
-              Technologies
-            </Text>
-
-            {[
-              "React.js",
-              "Next.js",
-              "TypeScript",
-            ].map((tech) => (
-              <Text key={tech} color="#94a3b8">
-                {tech}
-              </Text>
-            ))}
-          </VStack>
-
-          {/* Contact */}
-          <VStack align="start" spacing={3}>
-            <Text color="white" fontWeight="600">
-              Get In Touch
-            </Text>
-
-            <Text color="#94a3b8">
-              📍 India
-            </Text>
-
-            <Text color="#94a3b8">
-              📧 sharmasohini80@email.com
-            </Text>
-
-            <HStack spacing={3} gap={4} pt={2}>
-              <Box
-                as="a"
-                href={profile?.github}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FiGithub />
-              </Box>
-
-              <Box
-                as="a"
-                href={profile?.linkedin}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FiLinkedin />
-              </Box>
-            </HStack>
-          </VStack>
+        {/* Technologies row */}
+        <Flex
+          wrap="wrap"
+          gap={3}
+          mb={8}
+          pb={8}
+          borderBottom="1px solid rgba(255,255,255,0.06)"
+        >
+          {['HTML', 'CSS', 'JavaScript', 'React JS', 'Next JS', 'Tailwind CSS', 'Bootstrap', 'Chakra UI', 'Git & GitHub'].map((tech) => (
+            <Box
+              key={tech}
+              px={3} py="4px"
+              borderRadius="full"
+              fontSize="xs"
+              fontWeight="600"
+              color="#6c63ff"
+              bg="rgba(108,99,255,0.08)"
+              border="1px solid rgba(108,99,255,0.2)"
+            >
+              {tech}
+            </Box>
+          ))}
         </Flex>
 
         {/* Gradient divider */}
@@ -159,34 +130,50 @@ export default function Footer({ profile }) {
           style={{ background: 'linear-gradient(90deg,transparent,rgba(108,99,255,0.4),transparent)' }}
         />
 
+        {/* Bottom row */}
         <Flex
-          justify="space-between"
+          direction={{ base: 'column', sm: 'row' }}
           align="center"
-          direction={{ base: "column", md: "row" }}
+          justify="space-between"
           gap={4}
         >
-          <Text color="#94a3b8" fontSize="sm">
-            © {new Date().getFullYear()} Developed by{" "}
-            <Text
-              as="span"
-              color="#6c63ff"
-              fontWeight="600"
-              cursor="pointer"
-              _hover={{
-                color: "#00d4ff",
-              }}
-            >
-              Sohini Sharma
-            </Text>
-            . All rights reserved.
+          <Text color="#718096" fontSize="sm" display="flex" alignItems="center" gap="6px">
+            Made with{' '}
+            <Box as="span" display="inline-flex" color="#ff6b9d" style={{ animation: 'pulse-glow 2s ease-in-out infinite' }}>
+              <FiHeart size={14} />
+            </Box>
+            {' '}by{' '}
+            <Text as="span" color="white" fontWeight="500">{profile?.name || 'Sohini Sharma'}</Text>
+            {' '}· {new Date().getFullYear()}
           </Text>
 
-          <HStack spacing={1}>
-            <Text color="#94a3b8" fontSize="sm">
-              Built with React, Chakra UI & Node.js
-            </Text>
-
-            <FiHeart color="#6c63ff" />
+          {/* Social icons */}
+          <HStack gap={3}>
+            {[
+              { href: profile?.github   || '#', icon: <FiGithub size={17} />,   label: 'GitHub' },
+              { href: profile?.linkedin || '#', icon: <FiLinkedin size={17} />, label: 'LinkedIn' },
+            ].map(({ href, icon, label }) => (
+              <Box
+                key={label}
+                as="a"
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                title={label}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                w="36px" h="36px"
+                borderRadius="full"
+                border="1px solid rgba(108,99,255,0.28)"
+                bg="rgba(255,255,255,0.04)"
+                color="#718096"
+                transition="all 0.2s"
+                _hover={{ color: 'white', borderColor: '#6c63ff', bg: 'rgba(108,99,255,0.14)', transform: 'translateY(-2px)' }}
+              >
+                {icon}
+              </Box>
+            ))}
           </HStack>
         </Flex>
       </Box>

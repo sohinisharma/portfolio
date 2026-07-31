@@ -3,7 +3,7 @@ import { Box, Grid, Text, VStack, HStack, Flex } from '@chakra-ui/react';
 import { useInView } from 'react-intersection-observer';
 import {
   SiHtml5, SiCss, SiReact, SiTailwindcss,
-  SiJavascript, SiNextdotjs, SiBootstrap, SiGit,
+  SiJavascript, SiNextdotjs, SiBootstrap, SiGit, SiChakraui,
 } from 'react-icons/si';
 
 const categoryConfig = {
@@ -19,8 +19,9 @@ const skillIcons = {
   'React JS':     <SiReact       size={26} style={{ color: '#61DAFB' }} />,
   'Next JS':      <SiNextdotjs   size={26} style={{ color: '#ffffff' }} />,
   'Tailwind CSS': <SiTailwindcss size={26} style={{ color: '#38BDF8' }} />,
+  'Chakra UI':    <SiChakraui    size={26} style={{ color: '#319795' }} />,
   Bootstrap:      <SiBootstrap   size={26} style={{ color: '#7952B3' }} />,
-  'Git & GitHub': <SiGit        size={26} style={{ color: '#F05032' }} />,
+  'Git & GitHub': <SiGit         size={26} style={{ color: '#F05032' }} />,
 };
 
 const glassCard = {

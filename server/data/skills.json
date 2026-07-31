@@ -5,6 +5,7 @@
   { "id": 4,  "name": "React JS",     "level": 90, "category": "Technologies" },
   { "id": 5,  "name": "Next JS",      "level": 75, "category": "Technologies" },
   { "id": 6,  "name": "Tailwind CSS", "level": 90, "category": "Tools" },
-  { "id": 7,  "name": "Bootstrap",    "level": 85, "category": "Tools" },
-  { "id": 8,  "name": "Git & GitHub", "level": 80, "category": "Tools" }
+  { "id": 7,  "name": "Chakra UI",    "level": 80, "category": "Tools" },
+  { "id": 8,  "name": "Bootstrap",    "level": 85, "category": "Tools" },
+  { "id": 9,  "name": "Git & GitHub", "level": 80, "category": "Tools" }
 ]
