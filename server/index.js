@@ -14,10 +14,18 @@ app.use(cors());
 app.use(express.json());
 
 // ── MongoDB Connection ────────────────────────────────────────
+let dbConnected = false;
+
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log('✅ MongoDB connected'))
-  .catch((err) => console.error('❌ MongoDB connection error:', err.message));
+  .then(() => {
+    dbConnected = true;
+    console.log('✅ MongoDB connected');
+  })
+  .catch((err) => {
+    console.error('⚠️  MongoDB unavailable:', err.message);
+    console.log('ℹ️  Server will run without DB — messages will only be emailed.');
+  });
 
 // ── Static data ───────────────────────────────────────────────
 const profile    = require('./data/profile.json');
@@ -28,7 +36,11 @@ const experience = require('./data/experience.json');
 
 // ── Routes ────────────────────────────────────────────────────
 app.get('/', (req, res) => {
-  res.json({ message: 'Sohini Sharma — Portfolio API v2', status: 'running' });
+  res.json({
+    message: 'Sohini Sharma — Portfolio API v2',
+    status: 'running',
+    db: dbConnected ? 'connected' : 'disconnected',
+  });
 });
 
 app.get('/api/profile',    (req, res) => res.json({ success: true, data: profile }));
@@ -47,28 +59,43 @@ app.post('/api/contact', async (req, res) => {
   }
 
   try {
-    // 1️⃣  Save to MongoDB
-    const contact = await Contact.create({ name, email, message });
-    console.log('💾 Saved to MongoDB:', contact._id);
+    // 1️⃣  Save to MongoDB (only if connected — non-blocking if not)
+    if (dbConnected) {
+      try {
+        const contact = await Contact.create({ name, email, message });
+        console.log('💾 Saved to MongoDB:', contact._id);
+      } catch (dbErr) {
+        console.error('⚠️  DB save failed (non-fatal):', dbErr.message);
+      }
+    } else {
+      console.log('⚠️  DB not connected — skipping save. Message from:', email);
+    }
 
-    // 2️⃣  Send emails (notification + auto-reply) — non-blocking
-    sendContactEmail({ name, email, message })
-      .then(() => console.log(`📧 Emails sent — to: ${process.env.CONTACT_RECEIVER}, reply-to: ${email}`))
-      .catch((err) => console.error('⚠️  Email error (non-fatal):', err.message));
+    // 2️⃣  Send emails (notification + auto-reply)
+    try {
+      await sendContactEmail({ name, email, message });
+      console.log(`📧 Emails sent → ${process.env.CONTACT_RECEIVER} & auto-reply → ${email}`);
+    } catch (mailErr) {
+      console.error('⚠️  Email failed (non-fatal):', mailErr.message);
+    }
 
-    // 3️⃣  Respond immediately (don't wait for email)
+    // 3️⃣  Always respond with success
     return res.status(201).json({
       success: true,
-      message: 'Message received! I\'ll get back to you soon. 🚀',
+      message: "Message received! I'll get back to you soon. 🚀",
     });
+
   } catch (err) {
     console.error('❌ Contact route error:', err.message);
     return res.status(500).json({ success: false, error: 'Server error. Please try again later.' });
   }
 });
 
-// ── Get all messages (optional admin route) ───────────────────
+// ── View all messages (admin) ─────────────────────────────────
 app.get('/api/messages', async (req, res) => {
+  if (!dbConnected) {
+    return res.json({ success: false, error: 'Database not connected.' });
+  }
   try {
     const messages = await Contact.find().sort({ createdAt: -1 });
     res.json({ success: true, count: messages.length, data: messages });
