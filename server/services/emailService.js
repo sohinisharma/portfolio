@@ -58,7 +58,7 @@ function buildNotificationEmail({ name, email, message }) {
       </div>
       <div class="footer">
         <p>Received at ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })} IST<br/>
-        via <strong>sohinisharma.dev</strong> portfolio contact form</p>
+        via <strong>https://sohiniportfolio.vercel.app</strong> portfolio contact form</p>
       </div>
     </div></body></html>`,
   };
@@ -84,7 +84,7 @@ function buildAutoReplyEmail({ name, email, message }) {
         as soon as possible — usually <strong>within 24 hours</strong>.</p>
         <p>Here's a copy of what you sent me:</p>
         <blockquote style="border-left:3px solid #6c63ff; margin:16px 0; padding:14px 20px;
-          background:rgba(108,99,255,0.08); border-radius:0 10px 10px 0; color:#e2e8f0; font-style:italic; font-size:14px; line-height:1.8;">
+          background:rgba(108,99,255,0.08); border-radius:0 10px 10px 0; color:#6c63ff; font-style:italic; font-size:14px; line-height:1.8;">
           "${message}"
         </blockquote>
         <hr class="divider"/>
@@ -95,11 +95,7 @@ function buildAutoReplyEmail({ name, email, message }) {
         </p>
         <p>Talk soon! 🚀</p>
         <p><strong>Sohini Sharma</strong><br/>
-        <span style="color:#6c63ff; font-size:13px;">Frontend Developer · React · Next.js · Tailwind CSS</span></p>
-      </div>
-      <div class="footer">
-        <p>This is an automated reply — please do not reply directly to this email.<br/>
-        To reach Sohini directly, email <a href="mailto:sohinideveloper@gmail.com">sohinideveloper@gmail.com</a></p>
+        <span style="color:#6c63ff; font-size:13px;">Frontend Developer</span></p>
       </div>
     </div></body></html>`,
   };

@@ -11,6 +11,8 @@ import Contact    from './components/Contact';
 import Footer     from './components/Footer';
 
 const API_URL = 'https://portfoliobackend-nodejs.vercel.app' || 'http://localhost:5001';
+// const API_URL = 'http://localhost:5001';
+
 
 function App() {
   const [profile,    setProfile]    = useState(null);
