@@ -6,26 +6,26 @@ const mongoose = require('mongoose');
 const Contact  = require('./models/Contact');
 const { sendContactEmail } = require('./services/emailService');
 
-const app  = express();
-const PORT = process.env.PORT || 5001;
+const app = express();
 
 // ── Middleware ────────────────────────────────────────────────
-app.use(cors());
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-// ── MongoDB Connection ────────────────────────────────────────
-let dbConnected = false;
+// ── MongoDB — cached connection (required for Vercel serverless)
+let cachedDb = null;
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => {
-    dbConnected = true;
+async function connectDB() {
+  if (cachedDb && mongoose.connection.readyState === 1) return cachedDb;
+  try {
+    cachedDb = await mongoose.connect(process.env.MONGO_URI);
     console.log('✅ MongoDB connected');
-  })
-  .catch((err) => {
+    return cachedDb;
+  } catch (err) {
     console.error('⚠️  MongoDB unavailable:', err.message);
-    console.log('ℹ️  Server will run without DB — messages will only be emailed.');
-  });
+    return null;
+  }
+}
 
 // ── Static data ───────────────────────────────────────────────
 const profile    = require('./data/profile.json');
@@ -35,11 +35,12 @@ const education  = require('./data/education.json');
 const experience = require('./data/experience.json');
 
 // ── Routes ────────────────────────────────────────────────────
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+  const db = await connectDB();
   res.json({
     message: 'Sohini Sharma — Portfolio API v2',
-    status: 'running',
-    db: dbConnected ? 'connected' : 'disconnected',
+    status:  'running',
+    db:      db ? 'connected' : 'disconnected',
   });
 });
 
@@ -55,7 +56,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 app.post('/api/contact', async (req, res) => {
   const { name, email, message } = req.body;
 
-  // ── Server-side validation (mirrors frontend rules) ──────────
+  // Server-side validation
   const n = name?.trim();
   const e = email?.trim().toLowerCase();
   const m = message?.trim();
@@ -71,15 +72,14 @@ app.post('/api/contact', async (req, res) => {
 
   try {
     // 1️⃣  Save to MongoDB
-    if (dbConnected) {
+    const db = await connectDB();
+    if (db) {
       try {
         const contact = await Contact.create({ name: n, email: e, message: m });
         console.log('💾 Saved to MongoDB:', contact._id);
       } catch (dbErr) {
         console.error('⚠️  DB save failed (non-fatal):', dbErr.message);
       }
-    } else {
-      console.log('⚠️  DB not connected — skipping save. Message from:', e);
     }
 
     // 2️⃣  Send both emails independently
@@ -98,11 +98,10 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-// ── View all messages (admin) ─────────────────────────────────
+// ── Admin: view all messages ──────────────────────────────────
 app.get('/api/messages', async (req, res) => {
-  if (!dbConnected) {
-    return res.json({ success: false, error: 'Database not connected.' });
-  }
+  const db = await connectDB();
+  if (!db) return res.json({ success: false, error: 'Database not connected.' });
   try {
     const messages = await Contact.find().sort({ createdAt: -1 });
     res.json({ success: true, count: messages.length, data: messages });
@@ -114,5 +113,13 @@ app.get('/api/messages', async (req, res) => {
 // ── 404 ───────────────────────────────────────────────────────
 app.use((req, res) => res.status(404).json({ success: false, error: 'Route not found' }));
 
-// ── Start ─────────────────────────────────────────────────────
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+// ── Export for Vercel (don't call app.listen in serverless) ───
+// Local dev: only listen when running directly (not imported by Vercel)
+if (require.main === module) {
+  const PORT = process.env.PORT || 5001;
+  connectDB().then(() => {
+    app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+  });
+}
+
+module.exports = app;
