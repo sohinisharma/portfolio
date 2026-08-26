@@ -196,7 +196,7 @@ export default function Footer({ profile }) {
         as="button"
         position="fixed"
         bottom="32px"
-        right="32px"
+        right={{ base: '10px', md: '20px' }}
         zIndex={50}
         display="flex"
         alignItems="center"
