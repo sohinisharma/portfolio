@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
 import AOS from 'aos';
+import { FaWhatsapp } from 'react-icons/fa';
 import Navbar     from './components/Navbar';
 import Hero       from './components/Hero';
 import About      from './components/About';
@@ -11,6 +12,7 @@ import Contact    from './components/Contact';
 import Footer     from './components/Footer';
 
 const API_URL = 'https://portfoliobackend-nodejs.vercel.app';
+const WHATSAPP_LINK = `https://wa.me/917550466420?text=${encodeURIComponent("Hi Sohini")}`;
 // const API_URL = 'http://localhost:5001';
 
 
@@ -21,9 +23,17 @@ function App() {
   const [education,  setEducation]  = useState([]);
   const [experience, setExperience] = useState([]);
   const [loading,    setLoading]    = useState(true);
+  const [showTop,    setShowTop]    = useState(false);
 
   useEffect(() => {
     AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 60 });
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 400);
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   useEffect(() => {
@@ -84,6 +94,31 @@ function App() {
       <Projects   projects={projects} />
       <Contact    apiUrl={API_URL} profile={profile} />
       <Footer     profile={profile} />
+      <Box
+        as="a"
+        href={WHATSAPP_LINK}
+        target="_blank"
+        rel="noreferrer"
+        position="fixed"
+        bottom={showTop ? '88px' : '32px'}
+        right={{ base: '10px', md: '20px' }}
+        zIndex={40}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        w="44px"
+        h="44px"
+        borderRadius="full"
+        color="white"
+        bg="#25D366"
+        boxShadow="0 6px 22px rgba(37,211,102,0.4)"
+        transition="all 0.25s"
+        _hover={{ transform: 'translateY(-4px)', boxShadow: '0 10px 28px rgba(37,211,102,0.55)' }}
+        aria-label="Chat on WhatsApp"
+        title="Chat on WhatsApp"
+      >
+        <FaWhatsapp size={28} />
+      </Box>
     </Box>
   );
 }

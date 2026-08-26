@@ -5,6 +5,10 @@ import {
   FiCheckCircle, FiGithub, FiLinkedin, FiMapPin,
   FiAlertCircle, FiPhone,
 } from 'react-icons/fi';
+import { FaWhatsapp } from 'react-icons/fa';
+
+const WHATSAPP_NUMBER = '917550466420';
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hi Sohini")}`;
 
 // ── Styles ────────────────────────────────────────────────────
 const glassCard = {
@@ -324,7 +328,7 @@ export default function Contact({ apiUrl, profile }) {
             <VStack align="start" gap={5} w="100%">
               {[
                 { icon: <FiMail size={18} />,  label: 'Email',    value: profile?.email    || 'sohinideveloper@gmail.com', href: `mailto:${profile?.email}`, color: '#6c63ff' },
-                { icon: <FiPhone size={18} />, label: 'Phone',    value: profile?.phone    || '+91-7550466420',            href: `tel:${profile?.phone}`,    color: '#00d4ff' },
+                { icon: <FiPhone size={18} />, label: 'Phone',    value: profile?.phone    || '+91-7550466420',            href: `tel:${profile?.phone || '+917550466420'}`, color: '#00d4ff' },
                 { icon: <FiMapPin size={18} />,label: 'Location', value: profile?.location || 'India',                    href: null,                        color: '#ff6b9d' },
               ].map(({ icon, label, value, href, color }) => (
                 <HStack key={label} gap={4} align="start">
@@ -364,6 +368,7 @@ export default function Contact({ apiUrl, profile }) {
                 {[
                   { href: profile?.github   || '#', icon: <FiGithub size={18} />,   label: 'GitHub' },
                   { href: profile?.linkedin || '#', icon: <FiLinkedin size={18} />, label: 'LinkedIn' },
+                  { href: WHATSAPP_LINK, icon: <FaWhatsapp size={18} />, label: 'WhatsApp' },
                 ].map(({ href, icon, label }) => (
                   <Box
                     key={label}
